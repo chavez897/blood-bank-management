@@ -1,0 +1,40 @@
+"""User model."""
+
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from  utils.models import CustomAbstractUser
+
+
+class User(CustomAbstractUser):
+
+    is_active = models.BooleanField(
+        _("active"),
+        default=True,
+        help_text=(
+            "Indica si el registro debe ser tratado como activo.",
+            "Desmarque esta opción en lugar de borrar el registro",
+        ),
+    )
+    email = models.EmailField(
+        "email address",
+        unique=True,
+        error_messages={"unique": "A user with that email already exists."},
+    )
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username", "name", "last_name"]
+
+    is_verified = models.BooleanField(
+        "verified",
+        default=True,
+        help_text="Set to true when the user have verified its email address.",
+    )
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+
+    def __str__(self):
+        """Return username."""
+        return self.username
