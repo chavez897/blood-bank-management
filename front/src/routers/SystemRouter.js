@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { AboutScreen } from "../components/home/AboutScreen";
+import { DonorScreen } from "../components/donors/DonorScreen";
 
 import { HomeScreen } from "../components/home/HomeScreen";
 import { NavBar } from "../components/ui/NavBar";
@@ -12,7 +12,7 @@ export const SystemRouter = () => {
     <div className="container mx-auto">
       <Switch>
         <Route exact path="/home" component={HomeScreen} />
-        <Route exact path="/about" component={AboutScreen} />
+        <Route exact path="/donors" component={DonorScreen} />
 
         <Redirect to="/home" />
       </Switch>
