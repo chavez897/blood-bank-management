@@ -45,6 +45,8 @@ export const refresh = () => {
 export const logout = () => {
   return (dispatch) => {
     localStorage.clear();
+    dispatch(logoutAction());
+    dispatch(deleteUserAction());
   };
 };
 
