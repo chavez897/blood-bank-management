@@ -24,9 +24,9 @@ const { getState, dispatch } = store;
 axiosInstance.interceptors.request.use(
   (config) => {
     switch (config.url) {
-      case "/api/auth/token/":
-      case "/api/auth/verify/":
-      case "/api/auth/token/refresh/":
+      case "/auth/token/":
+      case "/auth/verify/":
+      case "/auth/token/refresh/":
         return config;
     }
     const tokenAccess = getState().tokens.access;

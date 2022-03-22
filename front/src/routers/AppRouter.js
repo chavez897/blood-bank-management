@@ -24,6 +24,7 @@ export const AppRouter = () => {
         setChecking(false);
       })
       .catch(() => {
+        console.log('catch')
         setChecking(false);
       });
     } else {

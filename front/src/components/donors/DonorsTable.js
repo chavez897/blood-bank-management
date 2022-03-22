@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { DonorModal } from "./DonorModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -7,37 +8,40 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const DonorTable = () => {
+export const DonorTable = ({ setNewDonor}) => {
   const persons = [
     {
       id: 1,
       name: "Mark",
       lastname: "Otto",
-      type: "Donor",
+      email: "marko@gmail.com",
     },
     {
       id: 2,
       name: "John",
       lastname: "Smith",
-      type: "Patient",
+      email: "johns@gmail.com",
     },
     {
       id: 3,
       name: "Larry",
       lastname: "Thompson",
-      type: "Donor",
+      email: "larryt@gmail.com",
     },
   ];
+  const openModal = () => {
+    setNewDonor(true);
+  };
   return (
     <>
       <div className="card w-100">
         <div className="card-body">
           <div className="row">
             <div className="col-7">
-              <h5 className="card-title">Donors / Recepients</h5>
+              <h5 className="card-title">Donors</h5>
             </div>
             <div className="col-1">
-              <button type="button" className="btn btn-outline-success">
+              <button type="button" className="btn btn-outline-success" onClick={openModal}>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
@@ -62,7 +66,7 @@ export const DonorTable = () => {
                 <th scope="col">#</th>
                 <th scope="col">First</th>
                 <th scope="col">Last</th>
-                <th scope="col">Donor / Recepient</th>
+                <th scope="col">Email</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
@@ -72,11 +76,12 @@ export const DonorTable = () => {
                   <th scope="row">{person.id}</th>
                   <td>{person.name}</td>
                   <td>{person.lastname}</td>
-                  <td>{person.type}</td>
+                  <td>{person.email}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
+                      onClick={openModal}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
