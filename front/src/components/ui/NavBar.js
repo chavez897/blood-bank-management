@@ -10,20 +10,20 @@ export const NavBar = () => {
   };
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-info px-3">
-      <Link to="/home">
+      <Link to="/donors">
         <p className="navbar-brand text-white">Blood Bank</p>
       </Link>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <Link to="/home">
-              <p className="nav-link text-white"> Home</p>
-            </Link>
-          </li>
           <li className="nav-item">
             <Link to="/donors">
               <p className="nav-link text-decoration-none text-white"> Donors</p>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/recipients">
+              <p className="nav-link text-decoration-none text-white"> Recipients</p>
             </Link>
           </li>
         </ul>
