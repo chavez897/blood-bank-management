@@ -31,6 +31,11 @@ export const NavBar = () => {
               <p className="nav-link text-decoration-none text-white"> Blood bank</p>
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/transfusion">
+              <p className="nav-link text-decoration-none text-white"> Transfusion</p>
+            </Link>
+          </li>
         </ul>
       </div>
       <div>
