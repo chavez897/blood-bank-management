@@ -17,7 +17,6 @@ export const DonorModal = ({ setNewDonor, isNew }) => {
     gender: "",
     email: "",
     diseases: "",
-    donation_count: "",
     blood_type: "1"
   });
 
@@ -29,7 +28,6 @@ export const DonorModal = ({ setNewDonor, isNew }) => {
     gender,
     email,
     diseases,
-    donation_count,
     blood_type
   } = formValues;
   const handleSubmit = () => {
@@ -168,18 +166,6 @@ export const DonorModal = ({ setNewDonor, isNew }) => {
                     className="form-control form-control-lg"
                     name="email"
                     value={email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-outline mb-4">
-                  <label className="form-label">Donation Count:</label>
-                  <input
-                    type="text"
-                    className="form-control form-control-lg"
-                    name="donation_count"
-                    value={donation_count}
                     onChange={handleInputChange}
                   />
                 </div>

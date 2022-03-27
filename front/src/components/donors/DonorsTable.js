@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { DonorModal } from "./DonorModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
   faTrash,
   faPlus,
   faMagnifyingGlass,
+  faEye
 } from "@fortawesome/free-solid-svg-icons";
 
 export const DonorTable = ({ setNewDonor}) => {
@@ -98,6 +98,13 @@ export const DonorTable = ({ setNewDonor}) => {
                     </button>
                     <button type="button" className="btn btn-outline-danger">
                       <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-success mx-3"
+                      onClick={openModal}
+                    >
+                      <FontAwesomeIcon icon={faEye} />
                     </button>
                   </td>
                 </tr>

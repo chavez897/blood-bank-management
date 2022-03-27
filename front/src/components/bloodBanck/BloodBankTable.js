@@ -4,41 +4,34 @@ import {
   faEdit,
   faTrash,
   faPlus,
-  faMagnifyingGlass,
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const RecipientTable = ({ setNewRecipient }) => {
-  const persons = [
+export const BloodBankTable = ({ setNewStock }) => {
+  const stocks = [
     {
       id: 1,
-      name: "Mark",
-      lastname: "Otto",
-      email: "marko@gmail.com",
+      type: "A",
+      donor: "John",
+      collectionDate: "03-27-2022",
     },
     {
       id: 2,
-      name: "John",
-      lastname: "Smith",
-      email: "johns@gmail.com",
-    },
-    {
-      id: 3,
-      name: "Larry",
-      lastname: "Thompson",
-      email: "larryt@gmail.com",
+      type: "B",
+      donor: "Mark",
+      collectionDate: "03-20-2022",
     },
   ];
   const openModal = () => {
-    setNewRecipient(true);
+    setNewStock(true);
   };
   return (
     <>
       <div className="card w-100">
         <div className="card-body">
           <div className="row">
-            <div className="col-7">
-              <h5 className="card-title">Recipients</h5>
+            <div className="col-11">
+              <h5 className="card-title">Blood Bank</h5>
             </div>
             <div className="col-1">
               <button
@@ -49,38 +42,24 @@ export const RecipientTable = ({ setNewRecipient }) => {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <div className="col-4">
-              <div className="input-group">
-                <input
-                  type="search"
-                  className="form-control rounded"
-                  placeholder="Search"
-                  aria-label="Search"
-                  aria-describedby="search-addon"
-                />
-                <button type="button" className="btn btn-outline-primary">
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-              </div>
-            </div>
           </div>
           <table className="table p-5">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Email</th>
+                <th scope="col">Blood Type</th>
+                <th scope="col">Donor</th>
+                <th scope="col">Collection Date</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {persons.map((person) => (
-                <tr key={person.id}>
-                  <th scope="row">{person.id}</th>
-                  <td>{person.name}</td>
-                  <td>{person.lastname}</td>
-                  <td>{person.email}</td>
+              {stocks.map((blood) => (
+                <tr key={blood.id}>
+                  <th scope="row">{blood.id}</th>
+                  <td>{blood.type}</td>
+                  <td>{blood.donor}</td>
+                  <td>{blood.collectionDate}</td>
                   <td>
                     <button
                       type="button"
