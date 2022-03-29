@@ -6,15 +6,15 @@ import { useForm } from "../../hooks/useForm";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export const BloodBankModal = ({ setNewStock }) => {
+export const BloodBankModal = ({ setNewStock, isNew }) => {
   const dispatch = useDispatch();
   const [collectionDate, setCollectionDate] = useState(new Date());
   const [expiracyDate, setExpiracyDate] = useState(new Date());
   const [formValues, handleInputChange] = useForm({
-    id: "",
-    bloodGroup: "",
-    donorId: "",
-    totalVolume: "",
+    id: isNew ? "": "1",
+    bloodGroup: isNew ? "": "1",
+    donorId: isNew ? "": "1",
+    totalVolume: isNew ? "": "3",
   });
 
   const { id, bloodGroup, donorId, totalVolume } = formValues;

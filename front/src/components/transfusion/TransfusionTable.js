@@ -7,7 +7,7 @@ import {
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const TransfusionTable = ({ setNewTransfusion }) => {
+export const TransfusionTable = ({ setNewTransfusion, setIsNew }) => {
   const transfusions = [
     {
       id: 1,
@@ -19,8 +19,9 @@ export const TransfusionTable = ({ setNewTransfusion }) => {
       transfusionDate: "03-27-2022",
     },
   ];
-  const openModal = () => {
+  const openModal = (isNew) => {
     setNewTransfusion(true);
+    setIsNew(isNew)
   };
   return (
     <>
@@ -34,7 +35,7 @@ export const TransfusionTable = ({ setNewTransfusion }) => {
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={openModal}
+                onClick={() => openModal(true)}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
@@ -61,7 +62,7 @@ export const TransfusionTable = ({ setNewTransfusion }) => {
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
-                      onClick={openModal}
+                      onClick={() => openModal(false)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
@@ -71,7 +72,7 @@ export const TransfusionTable = ({ setNewTransfusion }) => {
                     <button
                       type="button"
                       className="btn btn-outline-success mx-3"
-                      onClick={openModal}
+                      onClick={() => openModal(false)}
                     >
                       <FontAwesomeIcon icon={faEye} />
                     </button>

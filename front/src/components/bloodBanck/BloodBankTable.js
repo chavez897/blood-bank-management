@@ -7,7 +7,7 @@ import {
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const BloodBankTable = ({ setNewStock }) => {
+export const BloodBankTable = ({ setNewStock, setIsNew }) => {
   const stocks = [
     {
       id: 1,
@@ -22,8 +22,9 @@ export const BloodBankTable = ({ setNewStock }) => {
       collectionDate: "03-20-2022",
     },
   ];
-  const openModal = () => {
+  const openModal = (isNew) => {
     setNewStock(true);
+    setIsNew(isNew)
   };
   return (
     <>
@@ -37,7 +38,7 @@ export const BloodBankTable = ({ setNewStock }) => {
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={openModal}
+                onClick={() => openModal(true)}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
@@ -64,7 +65,7 @@ export const BloodBankTable = ({ setNewStock }) => {
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
-                      onClick={openModal}
+                      onClick={() => openModal(false)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
@@ -74,7 +75,7 @@ export const BloodBankTable = ({ setNewStock }) => {
                     <button
                       type="button"
                       className="btn btn-outline-success mx-3"
-                      onClick={openModal}
+                      onClick={() => openModal(false)}
                     >
                       <FontAwesomeIcon icon={faEye} />
                     </button>

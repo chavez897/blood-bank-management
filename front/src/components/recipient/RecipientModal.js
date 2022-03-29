@@ -10,14 +10,14 @@ export const RecipientModal = ({ setNewRecipient, isNew }) => {
   const dispatch = useDispatch();
   const [birthdate, setBirthdate] = useState(new Date());
   const [formValues, handleInputChange] = useForm({
-    id: "",
-    name: "",
-    address: "",
-    phone: "",
-    gender: "",
-    email: "",
-    diseases: "",
-    blood_type: "1"
+    id: isNew ? "" : "1",
+    name: isNew ? "" : "Mark",
+    address: isNew ? "" : "Canada st",
+    phone: isNew ? "" : "12341234",
+    gender: isNew ? "" : "M",
+    email: isNew ? "" : "marko@gmail.com",
+    diseases: isNew ? "" : "None",
+    blood_type: isNew ? "" : "1"
   });
 
   const {

@@ -8,29 +8,30 @@ import {
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const RecipientTable = ({ setNewRecipient }) => {
+export const RecipientTable = ({ setNewRecipient, setIsNew }) => {
   const persons = [
     {
       id: 1,
-      name: "Mark",
-      lastname: "Otto",
+      name: "Mark Otto",
+      phone: "1111111111",
       email: "marko@gmail.com",
     },
     {
       id: 2,
-      name: "John",
-      lastname: "Smith",
+      name: "John Smith",
+      phone: "2222222222",
       email: "johns@gmail.com",
     },
     {
       id: 3,
-      name: "Larry",
-      lastname: "Thompson",
+      name: "Larry Thompson",
+      phone: "3333333333",
       email: "larryt@gmail.com",
     },
   ];
-  const openModal = () => {
+  const openModal = (isNew) => {
     setNewRecipient(true);
+    setIsNew(isNew)
   };
   return (
     <>
@@ -44,7 +45,7 @@ export const RecipientTable = ({ setNewRecipient }) => {
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={openModal}
+                onClick={() => openModal(true)}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
@@ -68,8 +69,8 @@ export const RecipientTable = ({ setNewRecipient }) => {
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Email</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -79,13 +80,13 @@ export const RecipientTable = ({ setNewRecipient }) => {
                 <tr key={person.id}>
                   <th scope="row">{person.id}</th>
                   <td>{person.name}</td>
-                  <td>{person.lastname}</td>
+                  <td>{person.phone}</td>
                   <td>{person.email}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
-                      onClick={openModal}
+                      onClick={() => openModal(false)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
@@ -95,7 +96,7 @@ export const RecipientTable = ({ setNewRecipient }) => {
                     <button
                       type="button"
                       className="btn btn-outline-success mx-3"
-                      onClick={openModal}
+                      onClick={() => openModal(false)}
                     >
                       <FontAwesomeIcon icon={faEye} />
                     </button>
