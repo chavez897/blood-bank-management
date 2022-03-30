@@ -5,6 +5,7 @@ import {
   faTrash,
   faPlus,
   faEye,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const BloodBankTable = ({ setNewStock, setIsNew }) => {
@@ -31,7 +32,7 @@ export const BloodBankTable = ({ setNewStock, setIsNew }) => {
       <div className="card w-100">
         <div className="card-body">
           <div className="row">
-            <div className="col-11">
+            <div className="col-6">
               <h5 className="card-title">Blood Bank</h5>
             </div>
             <div className="col-1">
@@ -42,6 +43,31 @@ export const BloodBankTable = ({ setNewStock, setIsNew }) => {
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
+            </div>
+            <div className="col-5">
+              <div className="row">
+                <div className="col-3">
+                  <label className="form-label mt-2">Blood Type:</label>
+                </div>
+                <div className="col-6">
+                  <div className="form-outline">
+                    <div className="input-group">
+                      <select
+                        className="form-control form-control-lg"
+                        name="blood_type"
+                      >
+                        <option>All</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" className="btn btn-outline-primary col-2">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
+              </div>
             </div>
           </div>
           <table className="table p-5">

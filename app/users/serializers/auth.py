@@ -47,7 +47,7 @@ class UserLoginTokenPairSerializer(TokenObtainSerializer):
         user = authenticate(request=request, **authenticate_kwargs)
 
         if user is None:
-            raise exceptions.AuthenticationFailed("Revise sus credenciales")
+            raise exceptions.AuthenticationFailed("Incorrect Credentials")
 
         if not user.is_active or not user.is_verified:
             raise exceptions.AuthenticationFailed(
