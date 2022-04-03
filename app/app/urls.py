@@ -3,6 +3,7 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from users.views.users import UserViewSet
+from donors.views.donors import DonorsViewSet
 from users.views.auth import (
     UserAuthNonAtomicViewSet,
     UserAuthViewSet,
@@ -12,6 +13,7 @@ router = routers.DefaultRouter()
 router.register("auth", UserAuthViewSet, basename="auth")
 router.register("auth", UserAuthNonAtomicViewSet, basename="auth_not_atomic")
 router.register("users", UserViewSet)
+router.register("donors", DonorsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

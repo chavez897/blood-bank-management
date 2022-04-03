@@ -5,4 +5,8 @@ export const types = {
   saveTokens: "[Tokens] Save",
   deleteTokens: "[Tokens] Delete",
   refreshTokens: "[Tokens] Refresh",
+
+  ListDonors: "[Donors] List",
+  SelectDonor: "[Donor] Select",
+
 };

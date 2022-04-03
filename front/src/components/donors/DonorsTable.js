@@ -1,37 +1,102 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+import Swal from "sweetalert2";
 import {
   faEdit,
   faTrash,
   faPlus,
   faMagnifyingGlass,
-  faEye
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
+import { selectedDonorAction } from "../../actions/selectedDonor";
+import { deleteDonor, searchDonors } from "../../actions/donors";
 
-export const DonorTable = ({ setNewDonor, setIsNew}) => {
-  const persons = [
+export const DonorTable = ({ setNewDonor, setIsNew, setEdit }) => {
+  const dispatch = useDispatch();
+  const donors = useSelector((state) => state.donors);
+  const bloodOptions = [
     {
-      id: 1,
-      name: "Mark Otto",
-      phone: "1111111111",
-      email: "marko@gmail.com",
+      value: "All",
+      name: "All",
     },
     {
-      id: 2,
-      name: "John Smith",
-      phone: "2222222222",
-      email: "johns@gmail.com",
+      value: "A+",
+      name: "A+",
     },
     {
-      id: 3,
-      name: "Larry Thompson",
-      phone: "3333333333",
-      email: "larryt@gmail.com",
+      value: "A-",
+      name: "A-",
+    },
+    {
+      value: "B+",
+      name: "B+",
+    },
+    {
+      value: "B-",
+      name: "B-",
+    },
+    {
+      value: "AB+",
+      name: "AB+",
+    },
+    {
+      value: "AB-",
+      name: "AB-",
+    },
+    {
+      value: "O+",
+      name: "O+",
+    },
+    {
+      value: "O-",
+      name: "O-",
     },
   ];
-  const openModal = (isNew) => {
+  const [formValues, handleInputChange] = useForm({
+    blood_type: "All",
+  });
+  const { blood_type } = formValues;
+  const openModal = (data, isNew, edit) => {
+    dispatch(selectedDonorAction(data));
+    setIsNew(isNew);
+    setEdit(edit);
     setNewDonor(true);
-    setIsNew(isNew)
+  };
+  const searchDonorsButton = () => {
+    Swal.fire({
+      title: "Loading...",
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const val = blood_type === "All" ? "" : blood_type;
+    dispatch(searchDonors(val)).then(() => {
+      Swal.close();
+    });
+  };
+
+  const deleteDonorButton = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        actionDelete(id);
+      }
+    });
+  };
+  const actionDelete = (id) => {
+    deleteDonor(id).then((res) => {
+      dispatch(searchDonors(""));
+    });
   };
   return (
     <>
@@ -42,7 +107,11 @@ export const DonorTable = ({ setNewDonor, setIsNew}) => {
               <h5 className="card-title">Donors</h5>
             </div>
             <div className="col-1">
-              <button type="button" className="btn btn-outline-success" onClick={() => openModal(true)}>
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                onClick={() => openModal({}, true, true)}
+              >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
@@ -57,16 +126,23 @@ export const DonorTable = ({ setNewDonor, setIsNew}) => {
                       <select
                         className="form-control form-control-lg"
                         name="blood_type"
+                        value={blood_type}
+                        onChange={handleInputChange}
                       >
-                        <option>All</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        {bloodOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
                 </div>
-                <button type="button" className="btn btn-outline-primary col-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary col-2"
+                  onClick={searchDonorsButton}
+                >
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
               </div>
@@ -83,7 +159,7 @@ export const DonorTable = ({ setNewDonor, setIsNew}) => {
               </tr>
             </thead>
             <tbody>
-              {persons.map((person) => (
+              {donors.map((person) => (
                 <tr key={person.id}>
                   <th scope="row">{person.id}</th>
                   <td>{person.name}</td>
@@ -93,17 +169,21 @@ export const DonorTable = ({ setNewDonor, setIsNew}) => {
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
-                      onClick={() => openModal(false)}
+                      onClick={() => openModal(person, false, true)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
-                    <button type="button" className="btn btn-outline-danger">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => deleteDonorButton(person.id)}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                     <button
                       type="button"
                       className="btn btn-outline-success mx-3"
-                      onClick={() => openModal(false)}
+                      onClick={() => openModal(person, false, false)}
                     >
                       <FontAwesomeIcon icon={faEye} />
                     </button>
