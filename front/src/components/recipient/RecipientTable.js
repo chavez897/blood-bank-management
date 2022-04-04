@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+import Swal from "sweetalert2";
 import {
   faEdit,
   faTrash,
@@ -7,31 +11,53 @@ import {
   faMagnifyingGlass,
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
+import { selectedRecipientAction } from "../../actions/selectedRecipient";
+import { deleteRecipient, searchRecipients } from "../../actions/recipients";
 
-export const RecipientTable = ({ setNewRecipient, setIsNew }) => {
-  const persons = [
-    {
-      id: 1,
-      name: "Mark Otto",
-      phone: "1111111111",
-      email: "marko@gmail.com",
-    },
-    {
-      id: 2,
-      name: "John Smith",
-      phone: "2222222222",
-      email: "johns@gmail.com",
-    },
-    {
-      id: 3,
-      name: "Larry Thompson",
-      phone: "3333333333",
-      email: "larryt@gmail.com",
-    },
-  ];
-  const openModal = (isNew) => {
+export const RecipientTable = ({ setNewRecipient, setIsNew, setEdit }) => {
+  const dispatch = useDispatch();
+  const recipients = useSelector((state) => state.recipients);
+  const openModal = (data, isNew, edit) => {
+    dispatch(selectedRecipientAction(data));
+    setIsNew(isNew);
+    setEdit(edit);
     setNewRecipient(true);
-    setIsNew(isNew)
+  };
+  const [formValues, handleInputChange] = useForm({
+    name: "",
+  });
+  const { name } = formValues;
+  const searchRecipientsButton = () => {
+    Swal.fire({
+      title: "Loading...",
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    dispatch(searchRecipients(name)).then(() => {
+      Swal.close();
+    });
+  };
+
+  const deleteRecipientButton = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        actionDelete(id);
+      }
+    });
+  };
+  const actionDelete = (id) => {
+    deleteRecipient(id).then((res) => {
+      dispatch(searchRecipients(""));
+    });
   };
   return (
     <>
@@ -45,7 +71,7 @@ export const RecipientTable = ({ setNewRecipient, setIsNew }) => {
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={() => openModal(true)}
+                onClick={() => openModal({}, true, true)}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
@@ -58,8 +84,11 @@ export const RecipientTable = ({ setNewRecipient, setIsNew }) => {
                   placeholder="Search"
                   aria-label="Search"
                   aria-describedby="search-addon"
+                  name="name"
+                  value={name}
+                  onChange={handleInputChange}
                 />
-                <button type="button" className="btn btn-outline-primary">
+                <button type="button" className="btn btn-outline-primary" onClick={searchRecipientsButton}>
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
               </div>
@@ -76,7 +105,7 @@ export const RecipientTable = ({ setNewRecipient, setIsNew }) => {
               </tr>
             </thead>
             <tbody>
-              {persons.map((person) => (
+              {recipients.map((person) => (
                 <tr key={person.id}>
                   <th scope="row">{person.id}</th>
                   <td>{person.name}</td>
@@ -86,17 +115,21 @@ export const RecipientTable = ({ setNewRecipient, setIsNew }) => {
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
-                      onClick={() => openModal(false)}
+                      onClick={() => openModal(person, false, true)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
-                    <button type="button" className="btn btn-outline-danger">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => deleteRecipientButton(person.id)}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                     <button
                       type="button"
                       className="btn btn-outline-success mx-3"
-                      onClick={() => openModal(false)}
+                      onClick={() => openModal(person, false, false)}
                     >
                       <FontAwesomeIcon icon={faEye} />
                     </button>
