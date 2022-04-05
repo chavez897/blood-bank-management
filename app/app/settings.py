@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "users.apps.UsersConfig",
     "donors.apps.DonorsConfig",
-    "recipient.apps.RecipientConfig"
+    "recipient.apps.RecipientConfig",
+    "bloodBank.apps.BloodBankConfig"
 ]
 
 MIGRATION_MODULES = {"sites": "contrib.sites.migrations"}

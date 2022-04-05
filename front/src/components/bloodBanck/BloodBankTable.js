@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+import Swal from "sweetalert2";
 import {
   faEdit,
   faTrash,
@@ -7,25 +11,92 @@ import {
   faEye,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import { deleteBloodBank, searchBloodBank } from "../../actions/bloodBank";
+import { selectedBloodBankAction } from "../../actions/selectedBloodBank";
 
-export const BloodBankTable = ({ setNewStock, setIsNew }) => {
-  const stocks = [
+export const BloodBankTable = ({ setNewStock, setIsNew, setEdit }) => {
+  const dispatch = useDispatch();
+  const stocks = useSelector((state) => state.bloodBank);
+  const bloodOptions = [
     {
-      id: 1,
-      type: "A",
-      donor: "John",
-      collectionDate: "03-27-2022",
+      value: "All",
+      name: "All",
     },
     {
-      id: 2,
-      type: "B",
-      donor: "Mark",
-      collectionDate: "03-20-2022",
+      value: "A+",
+      name: "A+",
+    },
+    {
+      value: "A-",
+      name: "A-",
+    },
+    {
+      value: "B+",
+      name: "B+",
+    },
+    {
+      value: "B-",
+      name: "B-",
+    },
+    {
+      value: "AB+",
+      name: "AB+",
+    },
+    {
+      value: "AB-",
+      name: "AB-",
+    },
+    {
+      value: "O+",
+      name: "O+",
+    },
+    {
+      value: "O-",
+      name: "O-",
     },
   ];
-  const openModal = (isNew) => {
+  const [formValues, handleInputChange] = useForm({
+    blood_type: "All",
+  });
+  const { blood_type } = formValues;
+  const openModal = (data, isNew, edit) => {
+    dispatch(selectedBloodBankAction(data));
+    setIsNew(isNew);
+    setEdit(edit);
     setNewStock(true);
-    setIsNew(isNew)
+  };
+  const searchBloodBankButton = () => {
+    Swal.fire({
+      title: "Loading...",
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const val = blood_type === "All" ? "" : blood_type;
+    dispatch(searchBloodBank(val)).then(() => {
+      Swal.close();
+    });
+  };
+
+  const deleteBloodBankButton = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        actionDelete(id);
+      }
+    });
+  };
+  const actionDelete = (id) => {
+    deleteBloodBank(id).then((res) => {
+      dispatch(searchBloodBank(""));
+    });
   };
   return (
     <>
@@ -39,7 +110,7 @@ export const BloodBankTable = ({ setNewStock, setIsNew }) => {
               <button
                 type="button"
                 className="btn btn-outline-success"
-                onClick={() => openModal(true)}
+                onClick={() => openModal({}, true, true)}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
@@ -55,16 +126,23 @@ export const BloodBankTable = ({ setNewStock, setIsNew }) => {
                       <select
                         className="form-control form-control-lg"
                         name="blood_type"
+                        value={blood_type}
+                        onChange={handleInputChange}
                       >
-                        <option>All</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        {bloodOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
                 </div>
-                <button type="button" className="btn btn-outline-primary col-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary col-2"
+                  onClick={searchBloodBankButton}
+                >
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
               </div>
@@ -84,24 +162,28 @@ export const BloodBankTable = ({ setNewStock, setIsNew }) => {
               {stocks.map((blood) => (
                 <tr key={blood.id}>
                   <th scope="row">{blood.id}</th>
-                  <td>{blood.type}</td>
-                  <td>{blood.donor}</td>
+                  <td>{blood.bloodGroup}</td>
+                  <td>{blood.donorInfo.name}</td>
                   <td>{blood.collectionDate}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-outline-primary mx-3"
-                      onClick={() => openModal(false)}
+                      onClick={() => openModal(blood, false, true)}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
-                    <button type="button" className="btn btn-outline-danger">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => deleteBloodBankButton(blood.id)}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                     <button
                       type="button"
                       className="btn btn-outline-success mx-3"
-                      onClick={() => openModal(false)}
+                      onClick={() => openModal(blood, false, false)}
                     >
                       <FontAwesomeIcon icon={faEye} />
                     </button>

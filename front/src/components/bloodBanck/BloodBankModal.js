@@ -1,27 +1,137 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import DatePicker from "react-datepicker";
+import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
+import { createBloodBank, searchBloodBank, updateBloodBank } from "../../actions/bloodBank";
 
-export const BloodBankModal = ({ setNewStock, isNew }) => {
+export const BloodBankModal = ({ setNewStock, isNew, edit }) => {
   const dispatch = useDispatch();
+  const selectedBloodBank = useSelector((state) => state.selectedBloodBank);
   const [collectionDate, setCollectionDate] = useState(new Date());
   const [expiracyDate, setExpiracyDate] = useState(new Date());
+  const [bloodType, setBloodType] = useState(isNew ? "" : selectedBloodBank.bloodGroup);
   const [formValues, handleInputChange] = useForm({
-    id: isNew ? "": "1",
-    bloodGroup: isNew ? "": "1",
-    donorId: isNew ? "": "1",
-    totalVolume: isNew ? "": "3",
+    id: isNew ? "" : selectedBloodBank.id,
+    donorId: isNew ? "" : selectedBloodBank.donor,
+    totalVolume: isNew ? "" : selectedBloodBank.totalVolume,
   });
+  const { id, donorId, totalVolume } = formValues;
+  const donors = useSelector((state) => state.donors);
+  const bloodOptions = [
+    {
+      value: "A+",
+      name: "A+",
+    },
+    {
+      value: "A-",
+      name: "A-",
+    },
+    {
+      value: "B+",
+      name: "B+",
+    },
+    {
+      value: "B-",
+      name: "B-",
+    },
+    {
+      value: "AB+",
+      name: "AB+",
+    },
+    {
+      value: "AB-",
+      name: "AB-",
+    },
+    {
+      value: "O+",
+      name: "O+",
+    },
+    {
+      value: "O-",
+      name: "O-",
+    },
+  ];
+  useEffect(() => {
+    const selected = donors.find((element) => element.id == donorId);
+    if (selected) {
+      setBloodType(selected.bloodGroup);
+    } else {
+      setBloodType("");
+    }
+  }, [donorId]);
+  useEffect(() => {
+    if (!isNew) {
+      const collection = new Date(selectedBloodBank.collectionDate);
+      collection.setDate(collection.getDate() + 1);
+      setCollectionDate(collection);
 
-  const { id, bloodGroup, donorId, totalVolume } = formValues;
+      const exp = new Date(selectedBloodBank.expiryDate);
+      exp.setDate(exp.getDate() + 1);
+      setExpiracyDate(exp);
+    }
+  }, []);
   const handleSubmit = () => {
-    console.log(formValues);
-    console.log(collectionDate);
-    console.log(expiracyDate);
+    const data = {
+      blood_group: bloodType,
+      donor: donorId,
+      collectionDate:
+        collectionDate.getFullYear() +
+        "-" +
+        (collectionDate.getMonth() + 1) +
+        "-" +
+        collectionDate.getDate(),
+      expiryDate:
+        expiracyDate.getFullYear() +
+        "-" +
+        (expiracyDate.getMonth() + 1) +
+        "-" +
+        expiracyDate.getDate(),
+      totalVolume: totalVolume,
+    };
+    if (isNew) {
+      createBloodBank(data)
+        .then((res) => {
+          dispatch(searchBloodBank(""));
+          setNewStock(false);
+        })
+        .catch((error) => {
+          Swal.close();
+          const message =
+            error.length <= 0
+              ? "Error please try again"
+              : error[0].field + ": " + error[0].message;
+          Swal.fire({
+            title: "Error",
+            text: message,
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        });
+    } else {
+      updateBloodBank(data, selectedBloodBank.id)
+        .then((res) => {
+          dispatch(searchBloodBank(""));
+          setNewStock(false);
+        })
+        .catch((error) => {
+          Swal.close();
+          const message =
+            error.length <= 0
+              ? "Error please try again"
+              : error[0].field + ": " + error[0].message;
+          Swal.fire({
+            title: "Error",
+            text: message,
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        });
+    }
   };
   return (
     <div className="d-block modal">
@@ -46,6 +156,7 @@ export const BloodBankModal = ({ setNewStock, isNew }) => {
                     name="id"
                     value={id}
                     onChange={handleInputChange}
+                    disabled={true}
                   />
                 </div>
               </div>
@@ -56,13 +167,16 @@ export const BloodBankModal = ({ setNewStock, isNew }) => {
                     <select
                       className="form-control form-control-lg"
                       name="bloodGroup"
-                      value={bloodGroup}
-                      onChange={handleInputChange}
+                      value={bloodType}
+                      onChange={setBloodType}
+                      disabled={true}
                     >
-                      <option>Choose...</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                      <option></option>
+                      {bloodOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -73,14 +187,18 @@ export const BloodBankModal = ({ setNewStock, isNew }) => {
                   <div className="input-group mb-3">
                     <select
                       className="form-control form-control-lg"
+                      placeholder="Select a donor"
                       name="donorId"
                       value={donorId}
                       onChange={handleInputChange}
+                      disabled={!edit}
                     >
-                      <option>Choose...</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                      <option></option>
+                      {donors.map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -93,13 +211,16 @@ export const BloodBankModal = ({ setNewStock, isNew }) => {
                     showMonthDropdown
                     yearItemNumber={20}
                     selected={collectionDate}
-                    onChange={(collectionDate) => setCollectionDate(collectionDate)}
+                    onChange={(collectionDate) =>
+                      setCollectionDate(collectionDate)
+                    }
                     customInput={
                       <input
                         type="text"
                         className="form-control form-control-lg"
                       />
                     }
+                    disabled={!edit}
                   />
                 </div>
               </div>
@@ -118,6 +239,7 @@ export const BloodBankModal = ({ setNewStock, isNew }) => {
                         className="form-control form-control-lg"
                       />
                     }
+                    disabled={!edit}
                   />
                 </div>
               </div>
@@ -130,28 +252,31 @@ export const BloodBankModal = ({ setNewStock, isNew }) => {
                     name="totalVolume"
                     value={totalVolume}
                     onChange={handleInputChange}
+                    disabled={!edit}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-success"
-              onClick={handleSubmit}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              className="btn btn-danger"
-              data-dismiss="modal"
-              onClick={() => setNewStock(false)}
-            >
-              Close
-            </button>
-          </div>
+          {edit ? (
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-dismiss="modal"
+                onClick={() => setNewStock(false)}
+              >
+                Close
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

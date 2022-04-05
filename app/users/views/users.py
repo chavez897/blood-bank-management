@@ -34,12 +34,6 @@ class UserViewSet(
         ]
         return (permission() for permission in permissions)
 
-    def get_queryset(self):
-        """Overrides the queryset."""
-        queryset = User.objects.prefetch_related("userprofile").filter()
-        # Obtiene sólo usuarios verificados
-        return queryset.filter(is_active=True)
-
     @action(detail=False, methods=["GET"])
     def me(self, request):
         serializer = UserModelSerializer(request.user, context={"request": request})

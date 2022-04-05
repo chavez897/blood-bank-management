@@ -12,4 +12,7 @@ export const types = {
   ListRecipients: "[Recipients] List",
   SelectRecipient: "[Recipients] Select",
 
+  ListBloodBank: "[BloodBank] List",
+  SelectBloodBankt: "[BloodBank] Select",
+
 };

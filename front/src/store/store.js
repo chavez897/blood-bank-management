@@ -6,6 +6,8 @@ import { donorsReducer } from "../reducers/donorsReducer";
 import { selectedDonorReducer } from "../reducers/selectedDonorReducer";
 import { recipientsReducer } from "../reducers/recipientsReducer";
 import { selectedRecipientReducer } from "../reducers/selectedRecipientReducer";
+import { bloodBankReducer } from "../reducers/bloodBankReducer";
+import { selectedBloodBankReducer } from "../reducers/selectedBloodBank";
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -19,6 +21,8 @@ const reducers = combineReducers({
   selectedDonor: selectedDonorReducer,
   recipients: recipientsReducer,
   selectedRecipient: selectedRecipientReducer,
+  bloodBank: bloodBankReducer,
+  selectedBloodBank: selectedBloodBankReducer,
 });
 
 export const store = createStore(
