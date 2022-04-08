@@ -6,10 +6,12 @@ from users.views.users import UserViewSet
 from donors.views.donors import DonorsViewSet
 from recipient.views.recipients import RecipientsViewSet
 from bloodBank.views.bloodBank import BloodBankViewSet
+from hospitals.views.hospitals import HospitalsViewSet
 from users.views.auth import (
     UserAuthNonAtomicViewSet,
     UserAuthViewSet,
 )
+from transfusion.views.transfusion import TransfusionViewSet
 
 router = routers.DefaultRouter()
 router.register("auth", UserAuthViewSet, basename="auth")
@@ -18,6 +20,8 @@ router.register("users", UserViewSet)
 router.register("donors", DonorsViewSet)
 router.register("recipients", RecipientsViewSet)
 router.register("bloodBank", BloodBankViewSet)
+router.register("hospitals", HospitalsViewSet)
+router.register("transfusion", TransfusionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -52,7 +52,9 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "donors.apps.DonorsConfig",
     "recipient.apps.RecipientConfig",
-    "bloodBank.apps.BloodBankConfig"
+    "bloodBank.apps.BloodBankConfig",
+    "hospitals.apps.HospitalsConfig",
+    "transfusion.apps.TransfusionConfig"
 ]
 
 MIGRATION_MODULES = {"sites": "contrib.sites.migrations"}
