@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TransfusionTable } from "./TransfusionTable";
 import { TransfusionModal } from "./TransfusionModal";
-import { searchBloodBank } from "../../actions/bloodBank";
+import { searchBloodBank, searchBloodValid } from "../../actions/bloodBank";
 import { searchRecipients } from "../../actions/recipients";
 import Swal from "sweetalert2";
 import { searchDoctors } from "../../actions/doctors";
@@ -25,7 +25,16 @@ export const TransfusionScreen = () => {
     dispatch(searchRecipients(""));
     dispatch(searchDoctors());
     dispatch(searchHospital());
-    dispatch(searchBloodBank(""));
+    const today = new Date();
+    dispatch(
+      searchBloodValid(
+        today.getFullYear() +
+          "-" +
+          (today.getMonth() + 1) +
+          "-" +
+          today.getDate()
+      )
+    );
     dispatch(searchTransfusion("")).then(() => {
       SetIsLoading(false);
       Swal.close();

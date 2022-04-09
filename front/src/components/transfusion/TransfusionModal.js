@@ -12,6 +12,7 @@ import {
   searchTransfusion,
   updateTransfusion,
 } from "../../actions/transfusions";
+import { searchBloodBank } from "../../actions/bloodBank";
 
 export const TransfusionModal = ({ setNewTransfusion, isNew, edit }) => {
   const dispatch = useDispatch();
@@ -37,9 +38,16 @@ export const TransfusionModal = ({ setNewTransfusion, isNew, edit }) => {
       setTransfusionDate(date);
     }
   }, []);
-
   const { id, doctor, hospital, recipient, bloodBank, totalVolume } =
     formValues;
+
+  useEffect(() => {
+    if (recipient !== "") {
+      const result = recipients.find((element) => element.id == recipient);
+      dispatch(searchBloodBank(result.bloodGroup));
+    }
+  }, [recipient]);
+
   const handleSubmit = () => {
     const data = {
       user: doctor,
@@ -174,7 +182,7 @@ export const TransfusionModal = ({ setNewTransfusion, isNew, edit }) => {
                       onChange={handleInputChange}
                       disabled={!edit}
                     >
-                      <option>Choose...</option>
+                      <option value="">Choose...</option>
                       {recipients.map((option) => (
                         <option key={option.id} value={option.id}>
                           {option.name}

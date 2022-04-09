@@ -19,6 +19,22 @@ export const searchBloodBank = (search) => {
   };
 };
 
+export const searchBloodValid = (search) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axiosInstance
+        .get(`/bloodBank/?&expiry_date__gte=${search}`)
+        .then((res) => {
+          dispatch(searchBloodBankAction(res.data.results));
+          resolve(res);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+};
+
 export const createBloodBank = (data) => {
   return new Promise((resolve, reject) => {
     axiosInstance

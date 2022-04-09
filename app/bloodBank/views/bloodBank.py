@@ -12,7 +12,7 @@ class BloodBankViewSet(viewsets.ModelViewSet):
         DjangoFilterBackend,
     ]
     # For quick search
-    filter_fields = ["blood_group",]
+    filter_fields = ["blood_group", "expiry_date", "total_volume"]
 
     def get_permissions(self):
         """Assign permissions based on action."""

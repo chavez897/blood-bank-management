@@ -18,3 +18,4 @@ class BloodBankModelSerializer(serializers.ModelSerializer):
             "total_volume",
             "donor_info"
         ]
+    
