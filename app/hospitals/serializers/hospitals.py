@@ -1,12 +1,11 @@
 from rest_framework import serializers
 
-from recipient.models.recipient import Recipients
-
+from hospitals.models.hospitals import Hospital
 
 class HospitalModelSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Recipients
+        model = Hospital
         fields = [
             "id",
             "name",

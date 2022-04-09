@@ -8,6 +8,10 @@ import { recipientsReducer } from "../reducers/recipientsReducer";
 import { selectedRecipientReducer } from "../reducers/selectedRecipientReducer";
 import { bloodBankReducer } from "../reducers/bloodBankReducer";
 import { selectedBloodBankReducer } from "../reducers/selectedBloodBank";
+import { hospitalReducer } from "../reducers/HospitalReducer";
+import { doctorsReducer, usersReducer } from "../reducers/DoctorsReducer";
+import { transfusionReducer } from "../reducers/transfusionReducer";
+import { selectedTransfusionReducer } from "../reducers/selectedTransfusionReducer";
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -23,6 +27,10 @@ const reducers = combineReducers({
   selectedRecipient: selectedRecipientReducer,
   bloodBank: bloodBankReducer,
   selectedBloodBank: selectedBloodBankReducer,
+  doctors: doctorsReducer,
+  hospitals: hospitalReducer,
+  transfusions: transfusionReducer,
+  selectedTransfusion: selectedTransfusionReducer,
 });
 
 export const store = createStore(

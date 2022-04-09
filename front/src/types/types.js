@@ -15,4 +15,10 @@ export const types = {
   ListBloodBank: "[BloodBank] List",
   SelectBloodBankt: "[BloodBank] Select",
 
+  ListDoctors: "[Doctors] Doctors",
+  ListHospitals: "[Hospital] List",
+
+  ListTransfusions: "[Transfusion] List",
+  SelectTransfusion: "[Transfusion] Select",
+
 };

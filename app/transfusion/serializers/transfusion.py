@@ -1,19 +1,23 @@
 from rest_framework import serializers
 
-from bloodBank.models.bloodBank import BloodBank
-from donors.serializers.donors import DonorsModelSerializer
-
+from transfusion.models.transfusion import Transfusion
+from recipient.serializers.recipient import RecipientsModelSerializer
+from hospitals.serializers.hospitals import HospitalModelSerializer
 
 class TransfusionModelSerializer(serializers.ModelSerializer):
-    donor_info = DonorsModelSerializer(read_only=True, source='donor')
+    hospital_info = HospitalModelSerializer(read_only=True, source='hospital')
+    recipient_info = RecipientsModelSerializer(read_only=True, source='recipient')
 
     class Meta:
-        model = BloodBank
+        model = Transfusion
         fields = [
+            "id",
             "user",
-            "hospital ",
-            "recipient ",
+            "hospital",
+            "recipient",
             "blood",
             "transfusion_date",
-            "volume"
+            "volume",
+            "hospital_info",
+            "recipient_info",
         ]
