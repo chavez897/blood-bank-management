@@ -1,3 +1,20 @@
+"""
+Application name:               transfusion.py
+Author/Programmer:              Rodrigo Chavez Mercado
+Date application created:       April 8th, 2022
+
+This serializer helps to converting transfusion table objects into json format.
+The fields used are:
+    *id
+    *user
+    *hospital
+    *recipient
+    *blood
+    *transfusion_date
+    *volume
+"""
+
+
 from bloodBank.models.bloodBank import BloodBank
 from rest_framework import serializers
 
@@ -26,6 +43,17 @@ class TransfusionModelSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, attrs):
+        """
+        Function name:                      validate
+        Author/Programmer:                  Rodrigo Chavez Mercado
+        Date function was implemented:      April 8th, 2022
+
+        The function receives as parameter the data of the reques.
+        :return: None
+
+        It will validate that enough blood volume is in stock and will
+        update the stock
+    """
         if self.instance is not None:
             difference = attrs["volume"] - self.instance.volume
         else:

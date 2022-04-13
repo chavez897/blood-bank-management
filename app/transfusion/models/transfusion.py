@@ -1,3 +1,18 @@
+"""
+Application name:               transfusion.py
+Author/Programmer:              Rodrigo Chavez Mercado
+Date application created:       April 8th, 2022
+
+This model helps to define the strucutre of stored data.
+The fields used are:
+    *id
+    *user
+    *hospital
+    *recipient
+    *blood
+    *transfusion_date
+    *volume
+"""
 from django.db import models
 
 

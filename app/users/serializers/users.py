@@ -1,3 +1,20 @@
+"""
+Application name:               users.py
+Author/Programmer:              Rodrigo Chavez Mercado
+Date application created:       April 1st, 2022
+
+This serializer helps to converting user table objects into json format.
+The fields used are:
+    *id
+    *is_active
+    *email
+    *username
+    *name
+    *last_name
+    *is_verified
+"""
+
+
 from django.contrib.auth import get_user_model
 
 from rest_framework import serializers

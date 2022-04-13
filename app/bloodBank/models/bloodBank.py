@@ -1,3 +1,19 @@
+"""
+Application name:               bloodbank.py
+Author/Programmer:              Rodrigo Chavez Mercado
+Date application created:       April 6th, 2022
+
+This model helps to define the strucutre of stored data.
+The fields used are:
+    *id
+    *blood_group
+    *donor
+    *collection_date
+    *expiry_date
+    *total_volume
+    *donor_info
+"""
+
 from django.db import models
     
 class BloodGroup(models.TextChoices):

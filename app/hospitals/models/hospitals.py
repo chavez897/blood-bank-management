@@ -1,3 +1,17 @@
+"""
+Application name:               hospitals.py
+Author/Programmer:              Rodrigo Chavez Mercado
+Date application created:       April 8th, 2022
+
+This model helps to define the strucutre of stored data.
+The fields used are:
+    *id
+    *name
+    *city
+    *address
+    *phone
+"""
+
 from django.db import models
 
 

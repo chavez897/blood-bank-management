@@ -1,3 +1,13 @@
+"""
+Application name:               donors.py
+Author/Programmer:              Alina Ejaz               
+Date application created:       April 5th, 2022
+
+This view allows to perform insert, select, search, update and delete
+operations in the donor table. All of these operations are only allowed 
+for logged in users. You will be able to look by blood_group
+"""
+
 from rest_framework import viewsets, filters
 from url_filter.integrations.drf import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated

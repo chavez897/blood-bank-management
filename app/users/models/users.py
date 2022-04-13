@@ -1,4 +1,18 @@
-"""User model."""
+"""
+Application name:               users.py
+Author/Programmer:              Rodrigo Chavez Mercado
+Date application created:       April 1st, 2022
+
+This model helps to define the strucutre of stored data.
+The fields used are:
+    *id
+    *is_active
+    *email
+    *username
+    *name
+    *last_name
+    *is_verified
+"""
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _

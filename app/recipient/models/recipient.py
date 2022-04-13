@@ -1,3 +1,20 @@
+"""
+Application name:               recipient.py
+Author/Programmer:              Alina Ejaz               
+Date application created:       April 4th, 2022
+
+This model helps to define the strucutre of stored data.
+The fields used are:
+    *name
+    *dob
+    *gender
+    *blood_group
+    *address
+    *phone
+    *email
+    *diseases
+"""
+
 from django.db import models
 
 
