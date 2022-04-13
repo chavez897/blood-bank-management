@@ -76,6 +76,15 @@ export const BloodBankModal = ({ setNewStock, isNew, edit }) => {
     }
   }, []);
   const handleSubmit = () => {
+    if (totalVolume < 1) {
+      Swal.fire({
+        title: "Error",
+        text: "invalid volume",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return
+    }
     const data = {
       blood_group: bloodType,
       donor: donorId,

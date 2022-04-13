@@ -23,7 +23,7 @@ export const DonorTable = ({ setNewDonor, setIsNew, setEdit }) => {
       name: "All",
     },
     {
-      value: "A+",
+      value: "A%2b",
       name: "A+",
     },
     {
@@ -31,7 +31,7 @@ export const DonorTable = ({ setNewDonor, setIsNew, setEdit }) => {
       name: "A-",
     },
     {
-      value: "B+",
+      value: "B%2b",
       name: "B+",
     },
     {
@@ -39,7 +39,7 @@ export const DonorTable = ({ setNewDonor, setIsNew, setEdit }) => {
       name: "B-",
     },
     {
-      value: "AB+",
+      value: "AB%2b",
       name: "AB+",
     },
     {
@@ -47,7 +47,7 @@ export const DonorTable = ({ setNewDonor, setIsNew, setEdit }) => {
       name: "AB-",
     },
     {
-      value: "O+",
+      value: "O%2b",
       name: "O+",
     },
     {

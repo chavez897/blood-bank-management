@@ -44,11 +44,21 @@ export const TransfusionModal = ({ setNewTransfusion, isNew, edit }) => {
   useEffect(() => {
     if (recipient !== "") {
       const result = recipients.find((element) => element.id == recipient);
-      dispatch(searchBloodBank(result.bloodGroup));
+
+      dispatch(searchBloodBank(result.bloodGroup.replace("+", "%2b")));
     }
   }, [recipient]);
 
   const handleSubmit = () => {
+    if (totalVolume < 1) {
+      Swal.fire({
+        title: "Error",
+        text: "invalid volume",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return
+    }
     const data = {
       user: doctor,
       hospital: hospital,
